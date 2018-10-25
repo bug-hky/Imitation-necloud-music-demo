@@ -82,7 +82,42 @@ export interface User {
 }
 
 export interface State {
+  theme: string;
   showSideBar: boolean;
-  user: User;
+  user?: User;
 }
 
+export interface Menu {
+  label?: string;
+  key?: string;
+  index?: number;
+  href: string;
+  title?: string;
+  icon?: string;
+}
+
+export interface Banner {
+  adLocation: string | null;
+  adSource: string | null;
+  adid: number | null;
+  encodeId: string | null;
+  event: string | null;
+  exclusive: boolean | null;
+  extMonitor: null;
+  extMonitorInfo: null;
+  imageUrl: string | null;
+  monitorBlackList: null;
+  monitorClick: null;
+  monitorClickList: null;
+  monitorImpress: null;
+  monitorImpressList: null;
+  monitorType: null;
+  program: null;
+  song: null;
+  targetId: number | null;
+  targetType: number | null;
+  titleColor: string | null;
+  typeTitle: string | null;
+  url: string | null;
+  video: null;
+}

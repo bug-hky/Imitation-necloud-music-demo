@@ -1,6 +1,5 @@
 import { State } from '../interface';
 import { Commit } from 'vuex';
-import { getMovieList } from '@/index/api/home';
 
 const state = {
 };

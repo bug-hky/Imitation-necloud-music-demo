@@ -7,6 +7,7 @@ Vue.use(Vuex);
 
 const state: State = {
   showSideBar: false,
+  theme: 'black-theme',
   user: {
     adValid: false,
     bindings: [],
@@ -23,6 +24,7 @@ const state: State = {
 const getters = {
   showSideBar: (state: State) => state.showSideBar,
   user: (state: State) => state.user,
+  theme: (state: State) => state.theme,
 };
 
 const mutations = {
@@ -31,6 +33,9 @@ const mutations = {
   },
   SETUSER(state: State, data: User) {
     state.user = data;
+  },
+  SETTHEME(state: State, theme: string) {
+    state.theme = theme;
   },
 };
 

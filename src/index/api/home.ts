@@ -1,9 +1,9 @@
 import request from '@/utils/request';
 
 // tslint:disable-next-line:only-arrow-functions
-export const getMovieList = function(cate: string) {
+export const getBanner = function() {
   return request({
-    url: '/api/movie/' + cate,
+    url: '/banner',
     method: 'GET',
   });
 };

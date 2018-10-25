@@ -1,0 +1,93 @@
+$color-white: #fff;
+$color-black: #000;
+$color-gray: rgb(160, 160, 160);
+$color-dgray: rgb(110, 110, 110);
+$color-sgray: rgb(210, 210, 210);
+$color-org: rgb(255, 166, 0);
+$color-error: rgb(200, 0, 0);
+$color-succss: rgb(2, 128, 19);
+/* 基础 */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.pointer {
+  cursor: pointer;
+}
+.addAni {
+  transition: 0.2s ease-in-out;
+}
+.bold {
+  font-weight: bold;
+}
+/* 颜色主题 */
+.black-theme {
+  background: $color-black;
+  span,
+  p,
+  div,
+  section,
+  nav,
+  i,
+  b,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    color: $color-white;
+  }
+  .base-bg {
+    background: $color-black;
+  }
+  .base-font {
+    color: $color-white;
+  }
+  .default-font {
+    color: $color-dgray;
+  }
+  .van-tab--active {
+    .default-font {
+      color: $color-white;
+    }
+  }
+  .van-tab {
+    background: $color-black;
+  }
+}
+.white-theme {
+  background: $color-white;
+  span,
+  p,
+  div,
+  section,
+  nav,
+  i,
+  b,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    color: $color-black;
+  }
+  .base-bg {
+    background: $color-white;
+  }
+  .base-font {
+    color: $color-black;
+  }
+  .default-font {
+    color: $color-sgray;
+  }
+  .van-tab--active {
+    .default-font {
+      color: $color-black;
+    }
+  }
+  .van-tab {
+    background: $color-white;
+  }
+}

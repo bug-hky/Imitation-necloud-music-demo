@@ -1,10 +1,5 @@
 <template>
-  <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
-    <Header/>
+  <div id="app" :class="theme">
     <router-view/>
   </div>
 </template>
@@ -12,23 +7,24 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { NavBar } from 'vant';
-import Header from '@/index/components/Header.vue';
 import { Action, Mutation, State, Getter } from 'vuex-class';
 @Component({
-  components: {
-    Header,
-  },
+  components: {},
 })
 export default class App extends Vue {
+  @State('theme') private theme: string;
   @Mutation('SETUSER') private SETUSER: any;
 
   private mounted() {
-    const userObj: object = JSON.parse(window.localStorage.getItem(window.location.hostname + '_vantUser'));
+    const storageKey: string = window.location.hostname + '_vantUser';
+    const originJson: string | null = window.localStorage.getItem(storageKey);
+    const userObj: object | null = originJson ? JSON.parse(originJson) : null;
     this.SETUSER(userObj);
   }
 }
 </script>
 
+<style lang="scss" src="../common/scss/base.scss"></style>
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -36,17 +32,7 @@ export default class App extends Vue {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  height: 100%;
+  width: 100%;
 }
 </style>
