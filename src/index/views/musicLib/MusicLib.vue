@@ -1,10 +1,10 @@
 <template>
-  <van-row class="musicLib">
+  <van-pull-refresh v-model="isLoading" @refresh="onRefresh" class="musicLib">
     <BaseTab :datas="TabList" :active="active" @changeTab="changeTab"></BaseTab>
     <Recommend v-if="active === 0"></Recommend>
     <Friend v-else-if="active === 1"></Friend>
     <VoiceRadio v-else-if="active === 2"></VoiceRadio>
-  </van-row>
+  </van-pull-refresh>
 </template>
     
 <script lang="ts">
@@ -27,6 +27,7 @@
     },
   })
   export default class Home extends Vue {
+    private isLoading: boolean = false;
     private datas = [];
     private active = 0;
     private TabList: Menu[] = [
@@ -40,6 +41,12 @@
     }
     private changeTab(index: number) {
       this.active = index;
+    }
+    private onRefresh() {
+      setTimeout(() => {
+        this.$toast('刷新成功');
+        this.isLoading = false;
+      }, 500);
     }
   }
 </script>

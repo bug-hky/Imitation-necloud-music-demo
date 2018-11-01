@@ -40,7 +40,7 @@
     @State('theme') private theme: string;
 
     private changeTab(index: number, title: string) {
-      this.datas.map((tab) => {
+      this.datas.map((tab: any) => {
         if (tab.title === title && tab.href) {
           this.$router.push(tab.href);
         }
@@ -61,5 +61,8 @@
   }
 </script>
 <style lang="scss">
+.van-tabs {
+  border: none;
+}
 </style>
 

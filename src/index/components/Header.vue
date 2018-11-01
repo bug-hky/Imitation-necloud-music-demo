@@ -1,7 +1,7 @@
 <template>
   <div class="header base-bg">
     <van-nav-bar class="base-bg pos-el addAni" :class="{'go-out-left': showSearch}">
-      <van-icon name="wap-nav" slot="left" @click="TOOGLESIDEBAR(true)" :color="themeFontColor"/>
+      <van-icon name="wap-nav" slot="left" @click="toogleSideBar" :color="themeFontColor"/>
       <van-tabs v-model="active" slot="title" class="base-bg" :color="themeFontColor" :line-width="16"
         @change="changePage">
         <van-tab v-for="tab in tabsNav" :key="tab.title" :title="tab.title">
@@ -43,7 +43,7 @@ export default class Header extends Vue {
     { title: 'ilb', icon: 'iconfont icon-store-music bold', href: '/musicLib' },
   ];
   @State('theme') private theme: string;
-  @Mutation('TOOGLESIDEBAR') private TOOGLESIDEBAR: any;
+  @Mutation('toogleSideBar') private toogleSideBar: any;
 
   get themeFontColor() {
     return this.theme === BLACKTHEME ? '#fff' : '#000';
@@ -65,6 +65,16 @@ export default class Header extends Vue {
         this.$router.push(tab.href);
       }
     });
+  }
+
+  private mounted() {
+    console.log(this.$router);
+    const router: string = this.$router.currentRoute.fullPath;
+    if (router.match('/myMusic')) {
+      this.active = 0;
+    } else if (router.match('/musicLib')) {
+      this.active = 1;
+    }
   }
 }
 </script>
