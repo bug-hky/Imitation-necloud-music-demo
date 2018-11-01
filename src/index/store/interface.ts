@@ -1,21 +1,4 @@
 // tslint:disable-next-line:class-name
-export interface movie {
-  name: string;
-  rating: rating;
-  genres: [];
-  title: string;
-  casts: start[];
-  collect_count: number;
-  original_title: string;
-  subtype: string;
-  directors: [];
-  year: string;
-  images: [];
-  alt: string;
-  id: string;
-}
-
-// tslint:disable-next-line:class-name
 export interface rating {
   max: number;
   average: string;
@@ -84,7 +67,17 @@ export interface User {
 export interface State {
   theme: string;
   showSideBar: boolean;
-  user?: User;
+  showSongBar: boolean;
+  user: User;
+  isDayMode?: boolean;
+  songList?: any;
+  song?: any;
+  songListId?: any;
+  songId?: any;
+  songInfos?: any;
+  playList?: any[];
+  isPlaying?: boolean;
+  songUrl?: string | null;
 }
 
 export interface Menu {
@@ -94,6 +87,8 @@ export interface Menu {
   href: string;
   title?: string;
   icon?: string;
+  number?: number;
+  noBorder?: boolean;
 }
 
 export interface Banner {

@@ -1,6 +1,12 @@
 <template>
-  <div id="app" :class="theme">
+  <div id="app" class="theme" :class="theme">
     <router-view/>
+    <van-popup v-model="showSongBar" position="bottom" :overlay="true" :close-on-click-overlay="false" @click-overlay="toogleSongBar">
+      <van-row class="userInfo-bottomBar">
+        <playList/>
+      </van-row>
+    </van-popup>
+    <audio id="audio" :src="isPlaying ? songUrl : null" autoplay loop="true"></audio>
   </div>
 </template>
 
@@ -8,24 +14,29 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { NavBar } from 'vant';
 import { Action, Mutation, State, Getter } from 'vuex-class';
+import playList from './components/playList.vue';
 @Component({
-  components: {},
+  components: {
+    playList,
+  },
 })
 export default class App extends Vue {
+  private timer: any = null;
   @State('theme') private theme: string;
-  @Mutation('SETUSER') private SETUSER: any;
-
+  @Getter('isPlaying') private isPlaying: boolean;
+  @Getter('showSongBar') private showSongBar: boolean;
+  @Getter('songUrl') private songUrl: string;
+  @Mutation('toogleSongBar') private toogleSongBar: any;
+  @Action('setUser') private setUser: any;
+  @Action('refreshLoginState') private refreshLoginState: any;
   private mounted() {
-    const storageKey: string = window.location.hostname + '_vantUser';
-    const originJson: string | null = window.localStorage.getItem(storageKey);
-    const userObj: object | null = originJson ? JSON.parse(originJson) : null;
-    this.SETUSER(userObj);
+    this.setUser();
   }
 }
 </script>
 
 <style lang="scss" src="../common/scss/base.scss"></style>
-<style>
+<style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -34,5 +45,10 @@ export default class App extends Vue {
   color: #2c3e50;
   height: 100%;
   width: 100%;
+  .userInfo-bottomBar {
+    width: 100vw;
+    height: 60vh;
+    background: transparent;
+  }
 }
 </style>
