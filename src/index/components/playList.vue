@@ -47,7 +47,7 @@ export default class PlayList extends Vue {
     return returnTitle;
   }
   private isActive(songId: any) {
-    return parseInt(songId) === parseInt(this.songId);
+    return parseInt(songId, 10) === parseInt(this.songId, 10);
   }
   private changePlaySong(song: any) {
     this.changeSong(song.id);
