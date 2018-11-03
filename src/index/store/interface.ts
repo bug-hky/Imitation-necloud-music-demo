@@ -78,6 +78,7 @@ export interface State {
   playList?: any[];
   isPlaying?: boolean;
   songUrl?: string | null;
+  playType?: number;
 }
 
 export interface Menu {

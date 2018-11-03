@@ -14,7 +14,7 @@
   <div class="song-page flex column justify-start align-center" v-else>
     <topBar :isSong="true" :title="songInfos.name" :second-title="artsTitle" :double="true"/>
     <section class="dish flex row justify-center align-center">
-      <div class="dish-body flex column justify-center align-center" :class="{'rotate-ani': isPlaying}">
+      <div class="dish-body flex column justify-center align-center rotate-ani" :class="{'pause-ani': !isPlaying}">
         <img :src="dishPic" :alt="dishPic" class="al-img">
       </div>
     </section>
@@ -36,13 +36,13 @@
       </van-col>
     </van-row>
     <van-row class="schedule-line flex row justify-start align-center">
-      <span class="time-text default-font">12:60</span>
+      <span class="time-text default-font">00:00</span>
       <van-slider class="time-line" v-model="curTime" />
-      <span class="time-text default-font">03:40</span>
+      <span class="time-text default-font">04:44</span>
     </van-row>
     <van-row class="action-footer flex row align-center">
       <van-col :span="4">
-        <i class="default-font action-nav-icon iconfont icon-list-loop"></i>
+        <i :class="playTypeIcon" @click="changePlayType"></i>
       </van-col>
       <van-col :span="6">
         <i class="default-font change-nav-icon iconfont icon-prev"></i>
@@ -70,41 +70,58 @@
   import { Component, Vue, Prop, Emit, Watch } from 'vue-property-decorator';
   import { Action, Mutation, State, Getter, namespace } from 'vuex-class';
   import { Menu } from '../store/interface';
-  import { Tab, Tabs, Toast } from 'vant';
+  import { Toast } from 'vant';
   import baseItem from '../components/baseItem.vue';
   import topBar from '../components/topBar.vue';
 
   const someModule = namespace('/src/index/store/song/song');
+  const SINGLE = 1;
+  const LIST = 2;
+  const RANDOM = 3;
   @Component({
     components: {
-      [Tab.name]: Tab,
-      [Tabs.name]: Tabs,
       baseItem,
       topBar,
     },
   })
   export default class Song extends Vue {
     private active: number = 0;
-    private curTime: number = 0;
-    // @Prop({ default: {}}) private data: any;
+    private curTime: number = 1;
     @Prop({ default: false}) private isBar: boolean;
 
     @Getter('songInfos') private songInfos: any;
     @Getter('songId') private songId: string;
     @Getter('isPlaying') private isPlaying: boolean;
     @Getter('songUrl') private songUrl: string;
+    @Getter('playType') private playType: number;
     @Mutation('setPlay') private setPlay: any;
     @Mutation('setSongBar') private setSongBar: any;
     @Mutation('setSongListId') private setSongListId: any;
     @Mutation('setCurSong') private setCurSong: any;
     @Action('songListDetails') private songListDetails: any;
     @Action('songDetails') private songDetails: any;
+    @Action('changePlayType') private changePlayType: any;
 
     private goSong() {
       this.$router.push('/song');
     }
     private pauseOrPlay() {
       this.setPlay(!this.isPlaying);
+    }
+    get playTypeIcon() {
+      let returnStr: string = 'default-font action-nav-icon iconfont';
+      switch (this.playType) {
+        case SINGLE:
+          returnStr += ' icon-single-loop';
+          break;
+        case LIST:
+          returnStr += ' icon-list-loop';
+          break;
+        case RANDOM:
+          returnStr += ' icon-random';
+          break;
+      }
+      return returnStr;
     }
     get arts() {
       return this.songInfos.ar || [];
@@ -160,6 +177,7 @@
   height: 100%;
   padding-top: 45px;
   box-sizing: border-box;
+  overflow: hidden;
   .dish {
     height: calc(100% - 100px);
     .dish-body {

@@ -1,7 +1,7 @@
 <template>
   <div class="header base-bg">
     <van-nav-bar class="base-bg pos-el addAni" :class="{'go-out-left': showSearch}">
-      <van-icon name="wap-nav" slot="left" @click="toogleSideBar" :color="themeFontColor"/>
+      <van-icon name="wap-nav" slot="left" @click="setSideBar(true)" :color="themeFontColor"/>
       <van-tabs v-model="active" slot="title" class="base-bg" :color="themeFontColor" :line-width="16"
         @change="changePage">
         <van-tab v-for="tab in tabsNav" :key="tab.title" :title="tab.title">
@@ -43,7 +43,7 @@ export default class Header extends Vue {
     { title: 'ilb', icon: 'iconfont icon-store-music bold', href: '/musicLib' },
   ];
   @State('theme') private theme: string;
-  @Mutation('toogleSideBar') private toogleSideBar: any;
+  @Mutation('setSideBar') private setSideBar: any;
 
   get themeFontColor() {
     return this.theme === BLACKTHEME ? '#fff' : '#000';

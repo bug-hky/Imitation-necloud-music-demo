@@ -10,9 +10,13 @@ import { playlistDeatils, getSongUrl, getSongDetails } from '../api/songAbout';
 import { logout, getRecord } from '../api/home';
 
 Vue.use(Vuex);
+
 const BLACKTHEME: string = 'black-theme';
 const WHITETHEME: string = 'white-theme';
 const storageKey: string = window.location.hostname + '_vantUser';
+const SINGLE = 1;
+const LIST = 2;
+const RANDOM = 3;
 const userTemplate: User = {
   adValid: false,
   bindings: [],
@@ -37,9 +41,11 @@ const state: State = {
   playList: [],
   isPlaying: false,
   songUrl: null,
+  playType: 1,
 };
 
 const getters = {
+  playType: (state: State) => state.playType,
   songUrl: (state: State) => state.songUrl,
   isPlaying: (state: State) => state.isPlaying,
   showSideBar: (state: State) => state.showSideBar,
@@ -54,14 +60,17 @@ const getters = {
 };
 
 const mutations = {
-  tooglePlay(state: State) {
-    state.isPlaying = !state.isPlaying;
+  setPlay(state: State, data: boolean) {
+    state.isPlaying = data;
   },
-  toogleSongBar(state: State) {
-    state.showSongBar = !state.showSongBar;
+  setSongBar(state: State, data: boolean) {
+    state.showSongBar = data;
   },
-  toogleSideBar(state: State) {
-    state.showSideBar = !state.showSideBar;
+  setSideBar(state: State, data: boolean) {
+    state.showSideBar = data;
+  },
+  setPlayType(state: State, data: number) {
+    state.playType = data;
   },
   setUser(state: State, data: User) {
     state.user = data;
@@ -90,6 +99,15 @@ const mutations = {
 };
 
 const actions = {
+  changePlayType(context: {commit: Commit, state: State}) {
+    let nextType: any = state.playType;
+    if (nextType === RANDOM) {
+      nextType = SINGLE;
+    } else {
+      nextType++;
+    }
+    context.commit('setPlayType', nextType);
+  },
   setPlayList(context: { commit: Commit, dispatch: Dispatch, state: State }, playList: any[]) {
     context.commit('setPlayList', playList);
     if (playList.length > 0 && state.songId === null) {
@@ -117,7 +135,7 @@ const actions = {
         context.commit('setCurSong', song);
         context.dispatch('setSongUrl', songId).then((res: string) => {
           if (res === 'OK') {
-            context.commit('tooglePlay');
+            context.commit('setPlay', true);
           }
         });
       }

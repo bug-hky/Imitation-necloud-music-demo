@@ -1,7 +1,7 @@
 <template>
   <van-row class="home">
     <Header/>
-    <van-popup v-model="showSideBar" position="left" :overlay="true" :close-on-click-overlay="false" @click-overlay="toogleSideBar">
+    <van-popup v-model="showSideBar" position="left" :overlay="true" :close-on-click-overlay="false" @click-overlay="setSideBar(false)">
       <van-row class="userInfo-sideBar">
         <sideBar/>
       </van-row>
@@ -38,7 +38,7 @@
     ];
     @Getter('user') private user: any;
     @Getter('showSideBar') private showSideBar: boolean;
-    @Mutation('toogleSideBar') private toogleSideBar: any;
+    @Mutation('setSideBar') private setSideBar: any;
     @Action('setPlayList') private setPlayList: any;
     @Action('record') private record: any;
 

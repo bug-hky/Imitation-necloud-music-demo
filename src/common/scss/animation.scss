@@ -1,5 +1,8 @@
 .rotate-ani {
   animation: rotate 10s linear 1s infinite;
+  .pause-ani {
+    animation-play-state: paused;
+  }
 }
 /* animation */
 @keyframes rotate {

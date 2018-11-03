@@ -16,17 +16,12 @@
   import { Component, Vue, Prop, Emit, Watch } from 'vue-property-decorator';
   import { Action, Mutation, State, Getter, namespace } from 'vuex-class';
   import { Menu } from '../store/interface';
-  import { Tab, Tabs } from 'vant';
   import baseItem from '../components/baseItem.vue';
   import topBar from '../components/topBar.vue';
   import songBar from './song.vue';
-  const BLACKTHEME = 'black-theme';
-  const WHITETHEME = 'white-theme';
 
   @Component({
     components: {
-      [Tab.name]: Tab,
-      [Tabs.name]: Tabs,
       baseItem,
       topBar,
       songBar,
@@ -50,9 +45,6 @@
 
     get realList() {
       return this.songLists.tracks;
-    }
-    get themeBgColor() {
-      return this.theme === BLACKTHEME ? '#000' : '#fff';
     }
 
     private getSongListDetails() {

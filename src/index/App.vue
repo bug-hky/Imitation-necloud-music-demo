@@ -1,23 +1,25 @@
 <template>
   <div id="app" class="theme" :class="theme">
     <router-view/>
-    <van-popup v-model="showSongBar" position="bottom" :overlay="true" :close-on-click-overlay="false" @click-overlay="toogleSongBar">
+    <van-popup v-model="showSongBar" position="bottom" :overlay="true" :close-on-click-overlay="false" @click-overlay="setSongBar(false)">
       <van-row class="userInfo-bottomBar">
         <playList/>
       </van-row>
     </van-popup>
-    <audio id="audio" :src="isPlaying ? songUrl : null" autoplay loop="true"></audio>
+    <realAudio :is-playing="isPlaying" :song-url="songUrl" :play-type="playType" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { NavBar } from 'vant';
 import { Action, Mutation, State, Getter } from 'vuex-class';
 import playList from './components/playList.vue';
+import realAudio from './components/audio.vue';
 @Component({
   components: {
     playList,
+    realAudio,
   },
 })
 export default class App extends Vue {
@@ -26,9 +28,11 @@ export default class App extends Vue {
   @Getter('isPlaying') private isPlaying: boolean;
   @Getter('showSongBar') private showSongBar: boolean;
   @Getter('songUrl') private songUrl: string;
-  @Mutation('toogleSongBar') private toogleSongBar: any;
+  @Getter('playType') private playType: number;
+  @Mutation('setSongBar') private setSongBar: any;
   @Action('setUser') private setUser: any;
   @Action('refreshLoginState') private refreshLoginState: any;
+
   private mounted() {
     this.setUser();
   }
