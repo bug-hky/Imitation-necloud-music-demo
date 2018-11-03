@@ -9,12 +9,12 @@
     </div>
     <i class="song-bar-schedule iconfont base-font" @click="pauseOrPlay"
       :class="{'icon-pause': !isPlaying, 'icon-play': isPlaying}"></i>
-    <i class="song-bar-list iconfont icon-list base-font" @click="toogleSongBar"></i>
+    <i class="song-bar-list iconfont icon-list base-font" @click="setSongBar(true)"></i>
   </div>
   <div class="song-page flex column justify-start align-center" v-else>
     <topBar :isSong="true" :title="songInfos.name" :second-title="artsTitle" :double="true"/>
     <section class="dish flex row justify-center align-center">
-      <div class="dish-body flex column justify-center align-center">
+      <div class="dish-body flex column justify-center align-center" :class="{'rotate-ani': isPlaying}">
         <img :src="dishPic" :alt="dishPic" class="al-img">
       </div>
     </section>
@@ -56,7 +56,7 @@
         <i class="default-font change-nav-icon iconfont icon-next"></i>
       </van-col>
       <van-col :span="4">
-        <i class="default-font action-nav-icon iconfont icon-list" @click="toogleSongBar"></i>
+        <i class="default-font action-nav-icon iconfont icon-list" @click="setSongBar(true)"></i>
       </van-col>
     </van-row>
   </div>
@@ -93,8 +93,8 @@
     @Getter('songId') private songId: string;
     @Getter('isPlaying') private isPlaying: boolean;
     @Getter('songUrl') private songUrl: string;
-    @Mutation('tooglePlay') private tooglePlay: any;
-    @Mutation('toogleSongBar') private toogleSongBar: any;
+    @Mutation('setPlay') private setPlay: any;
+    @Mutation('setSongBar') private setSongBar: any;
     @Mutation('setSongListId') private setSongListId: any;
     @Mutation('setCurSong') private setCurSong: any;
     @Action('songListDetails') private songListDetails: any;
@@ -104,7 +104,7 @@
       this.$router.push('/song');
     }
     private pauseOrPlay() {
-      this.tooglePlay();
+      this.setPlay(!this.isPlaying);
     }
     get arts() {
       return this.songInfos.ar || [];
