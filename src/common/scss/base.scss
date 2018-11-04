@@ -1,0 +1,208 @@
+/* by panther 2018.10.25 */
+@import './color.scss';
+@import './animation.scss';
+/* 基础 */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+p {
+  margin: 0;
+}
+.pointer {
+  cursor: pointer;
+}
+.addAni {
+  transition: 0.2s ease-in-out;
+}
+.bold {
+  font-weight: bold;
+}
+.border-none {
+  border: none;
+}
+.playing-font {
+  color: $color-error;
+}
+.vt-m{
+  &.r-5 {
+    margin-right: 5px;
+  }
+  &.r-10 {
+    margin-right: 10px;
+  }
+  &.r-20 {
+    margin-right: 5px;
+  }
+  &.r-40 {
+    margin-right: 10px;
+  }
+  &.l-5 {
+    margin-left: 5px;
+  }
+  &.l-10 {
+    margin-left: 10px;
+  }
+  &.l-20 {
+    margin-left: 5px;
+  }
+  &.l-40 {
+    margin-left: 10px;
+  }
+}
+/* 弹性布局 */
+.flex {
+  display: flex;
+  /* 布局 */
+  &.row {
+    flex-flow: row nowrap;
+  }
+  &.column {
+    flex-flow: column nowrap;
+  }
+  /* 主轴 */
+  &.justify-start {
+    justify-content: flex-start;
+  }
+  &.justify-end {
+    justify-content: flex-end;
+  }
+  &.justify-center {
+    justify-content: center;
+  }
+  &.justify-between {
+    justify-content: space-between;
+  }
+  &.justify-around {
+    justify-content: space-around;
+  }
+  /* 副轴 */
+  &.align-start {
+    align-items: flex-start;
+  }
+  &.align-center {
+    align-items: center;
+  }
+  &.align-end {
+    align-items: flex-end;
+  }
+}
+/* 颜色主题 */
+.theme {
+  .myMusic {
+    .van-cell {
+      padding: 5px 10px;
+      text-align: left;
+    }
+  }
+  [class*=van-hairline]::after,
+  .van-cell:not(:last-child)::after {
+    border: 0 solid transparent;
+  }
+  .van-collapse-item__content {
+    padding: 0;
+  }
+&.black-theme {
+  background: $color-black;
+  .base-bg {
+    background: $color-black;
+  }
+  .default-bg {
+    background: $color-dgray;
+  }
+  .base-border {
+    border-color: $color-dgray;
+  }
+  .base-font {
+    color: $color-white;
+  }
+  .default-font {
+    color: $color-gray;
+  }
+  .deep-font {
+    color: $color-dgray;
+  }
+  .van-tab--active {
+    .default-font {
+      color: $color-white;
+    }
+  }
+  .van-tab,
+  .van-cell {
+    background: $color-black;
+    color: $color-gray;
+  }
+  .sideBar {
+    background: $color-dgray;
+    color: $color-gray;
+    .sideBarBottomBar {
+      border-color: $color-gray;
+    }
+  }
+  .myMusic {
+    .user-banner {
+      background: $color-dgray;
+      box-shadow: 0px 0px 1px $color-gray;
+    }
+    .my-class-list>.class-list-item,
+    .my-music-list>.my-music-item {
+      border-color: $color-dgray;
+      .van-cell {
+        background: $color-dgray;
+      }
+    }
+  }
+}
+&.white-theme {
+  background: $color-white;
+  .base-bg {
+    background: $color-white;
+  }
+  .default-bg {
+    background: $color-white;
+  }
+  .base-border {
+    border-color: $color-sgray;
+  }
+  .base-font {
+    color: $color-black;
+  }
+  .default-font {
+    color: $color-gray;
+  }
+  .deep-font {
+    color: $color-sgray;
+  }
+  .van-tab--active {
+    .default-font {
+      color: $color-black;
+    }
+  }
+  .van-tab {
+    background: $color-white;
+    color: $color-gray;
+  }
+  .sideBar {
+    background: $color-white;
+    color: $color-black;
+    .sideBarBottomBar {
+      border-color: $color-gray;
+    }
+  }
+  .myMusic {
+    .user-banner {
+      background: $color-white;
+      box-shadow: 0px 0px 1px $color-gray;
+    }
+    .my-class-list>.class-list-item,
+    .my-music-list>.my-music-item {
+      border-color: $color-sgray;
+      .van-cell {
+        background: $color-swhite;
+      }
+    }
+  }
+}
+}
