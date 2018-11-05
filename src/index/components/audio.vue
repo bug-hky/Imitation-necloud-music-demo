@@ -1,7 +1,6 @@
 <template>
   <audio id="audio" :src="songUrl" :loop="isSingleLoop"></audio>
 </template>
-    
 <script lang="ts">
   /*
   @prop
@@ -28,9 +27,9 @@
     private onChnageSongUrl(val: boolean, oldVal: boolean) {
       if (val) {
         this.audioEl = document.getElementById('audio');
-        this.audioEl.pause();
+        // this.audioEl.pause();
         this.$nextTick(() => {
-          this.audioEl.play();
+          // this.audioEl.play();
         });
       }
     }
