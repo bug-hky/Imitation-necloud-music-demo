@@ -75,7 +75,7 @@
       border-radius: 10%;
     }
     span {
-      font-size: 1.4rem;
+      font-size: 16px;
     }
   }
   .base-item-cont {
@@ -86,13 +86,13 @@
     }
     border-bottom: 1px solid transparent;
     .base-item-action {
-      font-size: 1.4rem;
+      font-size: 16px;
       padding-right: 1rem;
     }
     .base-item-text-box {
       height: 100%;
       max-width: 60vw;
-      font-size: 1.4rem;
+      font-size: 16px;
       margin-left: 10px;
       text-align: left;
       .base-item-name,

@@ -146,13 +146,13 @@
         border: none;
       }
       .class-icon{
-        font-size: 1.8rem;
+        font-size: 18px;
       }
       .class-title {
-        font-size: 1.4rem;
+        font-size: 16px;
       }
       .class-number {
-        font-size: 1rem;
+        font-size: 14px;
       }
     }
   }

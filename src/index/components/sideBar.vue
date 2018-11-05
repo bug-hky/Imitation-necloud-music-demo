@@ -84,6 +84,9 @@ export default class SideBar extends Vue {
   .sideBarBottomBar {
     height: 50px;
     border-top: 1px solid transparent;
+    span {
+      font-size: 0.8rem;
+    }
   }
 }
 </style>

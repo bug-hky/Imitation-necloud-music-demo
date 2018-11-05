@@ -181,13 +181,13 @@
   .dish {
     height: calc(100% - 100px);
     .dish-body {
-      height: 25rem;
-      width: 25rem;
+      height: 80vw;
+      width: 80vw;
       background: url('../assets/coverall.png') no-repeat center center;
       background-size: 100% 100%;
       .al-img {
-        height: 15rem;
-        width: 15rem;
+        height: 60%;
+        width: 60%;
         border-radius: 50%;
       }
     }

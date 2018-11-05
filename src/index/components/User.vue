@@ -74,15 +74,15 @@ export default class UserComp extends Vue {
       justify-content: flex-start;
       align-items: center;
       .nickName{
-        font-size: 1.5rem;
+        font-size: 18px;
         color: #fff;
         margin: 0.5rem;
       }
       .level {
         border: 1px solid #fff;
-        border-radius: 2rem;
-        font-size: 1rem;
-        padding: 0 0.5rem;
+        border-radius: 10px;
+        font-size: 16px;
+        padding: 0 10px;
         color: #fff;
       }
     }
@@ -110,6 +110,12 @@ export default class UserComp extends Vue {
         flex-flow: row nowrap;
         justify-content: center;
         align-items: center;
+        img {
+          width: auto;
+          height: 80%;
+          border-radius: 50%;
+          margin: 0.5rem;
+        }
       }
     }
   }
