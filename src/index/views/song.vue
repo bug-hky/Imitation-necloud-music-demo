@@ -36,9 +36,9 @@
       </van-col>
     </van-row>
     <van-row class="schedule-line flex row justify-start align-center">
-      <span class="time-text default-font">00:00</span>
-      <van-slider class="time-line" v-model="curTime" />
-      <span class="time-text default-font">04:44</span>
+      <span class="time-text default-font">{{currentTime}}</span>
+      <van-slider class="time-line" v-model="curSchedule" />
+      <span class="time-text default-font">{{maxTime}}</span>
     </van-row>
     <van-row class="action-footer flex row align-center">
       <van-col :span="4">
@@ -86,15 +86,15 @@
   })
   export default class Song extends Vue {
     private active: number = 0;
-    private curTime: number = 1;
     @Prop({ default: false}) private isBar: boolean;
 
     @Getter('songInfos') private songInfos: any;
     @Getter('songId') private songId: string;
-    @Getter('isPlaying') private isPlaying: boolean;
     @Getter('songUrl') private songUrl: string;
     @Getter('playType') private playType: number;
-    @Mutation('setPlay') private setPlay: any;
+    @Getter('audio') private audio: any;
+    @Getter('schedule') private schedule: any;
+    @Mutation('setAudio') private setAudio: any;
     @Mutation('setSongBar') private setSongBar: any;
     @Mutation('setSongListId') private setSongListId: any;
     @Mutation('setCurSong') private setCurSong: any;
@@ -106,7 +106,26 @@
       this.$router.push('/song');
     }
     private pauseOrPlay() {
-      this.setPlay(!this.isPlaying);
+      this.curAudio = Object.assign(this.curAudio, {playing: !this.isPlaying});
+    }
+
+    get isPlaying() {
+      return this.curAudio.playing;
+    }
+    get currentTime(): string {
+      return this.curAudio.currentTime;
+    }
+    get maxTime(): string {
+      return this.curAudio.maxTime;
+    }
+    get curSchedule(): number {
+      return Math.floor(this.schedule);
+    }
+    get curAudio() {
+      return this.audio;
+    }
+    set curAudio(val: any) {
+      this.setAudio(val);
     }
     get playTypeIcon() {
       let returnStr: string = 'default-font action-nav-icon iconfont';

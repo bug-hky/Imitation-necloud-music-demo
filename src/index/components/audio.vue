@@ -1,5 +1,7 @@
 <template>
-  <audio id="audio" :src="songUrl" :loop="isSingleLoop"></audio>
+  <audio ref="audio" :src="songUrl" :loop="isSingleLoop"
+    @pause="onPause" @play="onPlay" @timeupdate="onTimeupdate" @loadedmetadata="onLoadedmetadata"
+  ></audio>
 </template>
 <script lang="ts">
   /*
@@ -16,20 +18,22 @@
     components: {},
   })
   export default class SongList extends Vue {
-    private audioEl: any = null;
 
     @Prop({ default: SINGLE }) private playType: number;
-    @Prop({ default: false }) private isPlaying: boolean;
     @Prop({ default: null }) private songUrl: string;
+    @Getter('audio') private audio: any;
+    @Mutation('setAudio') private setAudio: any;
+    @Mutation('setSchedule') private setSchedule: any;
+    @Action('setCurTime') private setCurTime: any;
+    @Action('setMaxTime') private setMaxTime: any;
 
     /* change song */
     @Watch('songUrl', {deep: true})
     private onChnageSongUrl(val: boolean, oldVal: boolean) {
       if (val) {
-        this.audioEl = document.getElementById('audio');
         // this.audioEl.pause();
         this.$nextTick(() => {
-          // this.audioEl.play();
+          this.audioEl.play();
         });
       }
     }
@@ -37,18 +41,54 @@
     @Watch('isPlaying', {deep: true})
     private onChnageIsPlaying(val: boolean, oldVal: boolean) {
       if (val) {
-        this.audioEl.play();
+        this.play();
       } else {
-        this.audioEl.pause();
+        this.pause();
       }
     }
 
+    get isPlaying(): boolean {
+      return this.curAudio.playing;
+    }
+    get curAudio() {
+      return this.audio;
+    }
+    set curAudio(val: any) {
+      this.setAudio(val);
+    }
+    get audioEl(): any {
+      return this.$refs.audio;
+    }
     get isSingleLoop() {
       return this.playType === SINGLE;
     }
 
+    private play() {
+      this.audioEl.play();
+    }
+    private pause() {
+      this.audioEl.pause();
+    }
+    private onPlay() {
+      this.audio.playing = true;
+    }
+    private onPause() {
+      this.audio.playing = false;
+    }
+    private onTimeupdate(res: any) {
+      // console.log('updateTime', res.target.currentTime);
+      this.setCurTime(res.target.currentTime);
+      if (res.target.duration && res.target.currentTime) {
+        this.setSchedule((res.target.currentTime / res.target.duration) * 100);
+      }
+    }
+    private onLoadedmetadata(res: any) {
+      // console.log('loadedTime', res.target.duration);
+      this.setMaxTime(res.target.duration);
+    }
+
     private mounted() {
-      this.audioEl = document.getElementById('audio');
+      // this.audioEl = document.getElementById('audio');
     }
   }
 </script>
