@@ -70,15 +70,6 @@ export interface State {
   showSongBar: boolean;
   user: User;
   isDayMode?: boolean;
-  songList?: any;
-  song?: any;
-  songListId?: any;
-  songId?: any;
-  songInfos?: any;
-  playList?: any[];
-  isPlaying?: boolean;
-  songUrl?: string | null;
-  playType?: number;
 }
 
 export interface Menu {

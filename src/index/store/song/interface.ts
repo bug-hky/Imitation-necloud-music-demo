@@ -1,5 +1,6 @@
-export interface SongState {
-  songList: any;
-  song: any;
+export interface State {
+  songId?: any;
+  songInfos?: any;
+  songUrl?: string | null;
 }
 
