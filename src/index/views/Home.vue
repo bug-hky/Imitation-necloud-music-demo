@@ -1,7 +1,7 @@
 <template>
   <van-row class="home">
     <Header/>
-    <van-popup v-model="showSideBar" position="left" :overlay="true" :close-on-click-overlay="false" @click-overlay="setSideBar(false)">
+    <van-popup v-model="showCurSideBar" position="left" :overlay="true" :close-on-click-overlay="false" @click-overlay="setSideBar(false)">
       <van-row class="userInfo-sideBar">
         <sideBar/>
       </van-row>
@@ -46,7 +46,12 @@
     private onUserChanged(val: User, oldVal: User) {
       this.getDefautPlayList();
     }
-
+    get showCurSideBar() {
+      return this.showSideBar;
+    }
+    set showCurSideBar(val: boolean) {
+      console.log('');
+    }
     private getDefautPlayList() {
       if (this.user.profile.userId) {
         this.record(1).then((resp: any) => {

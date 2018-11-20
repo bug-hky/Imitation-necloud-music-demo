@@ -1,12 +1,12 @@
 <template>
   <div id="app" class="theme" :class="theme">
     <router-view/>
-    <van-popup v-model="showSongBar" position="bottom" :overlay="true" :close-on-click-overlay="false" @click-overlay="setSongBar(false)">
+    <van-popup v-model="showCurSongBar" position="bottom" :overlay="true" :close-on-click-overlay="false" @click-overlay="setSongBar(false)">
       <van-row class="userInfo-bottomBar">
         <playList/>
       </van-row>
     </van-popup>
-    <realAudio :is-playing="isPlaying" :song-url="songUrl" :play-type="playType" />
+    <realAudio :song-url="songUrl" :play-type="playType" />
   </div>
 </template>
 
@@ -25,7 +25,6 @@ import realAudio from './components/audio.vue';
 export default class App extends Vue {
   private timer: any = null;
   @State('theme') private theme: string;
-  @Getter('isPlaying') private isPlaying: boolean;
   @Getter('showSongBar') private showSongBar: boolean;
   @Getter('songUrl') private songUrl: string;
   @Getter('playType') private playType: number;
@@ -33,6 +32,12 @@ export default class App extends Vue {
   @Action('setUser') private setUser: any;
   @Action('refreshLoginState') private refreshLoginState: any;
 
+  get showCurSongBar() {
+    return this.showSongBar;
+  }
+  set showCurSongBar(val) {
+    console.log('');
+  }
   private mounted() {
     this.setUser();
   }
