@@ -1,11 +1,11 @@
 export interface Audio {
   playing: boolean;
-  currentTime: string;
-  maxTime: string;
+  currentTime: number;
+  maxTime: number;
 }
 
 export interface State {
   audio?: Audio;
-  schedule?: any;
+  handlerSchedule?: number;
 }
 

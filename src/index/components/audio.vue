@@ -22,6 +22,7 @@
     @Prop({ default: SINGLE }) private playType: number;
     @Prop({ default: null }) private songUrl: string;
     @Getter('audio') private audio: any;
+    @Getter('handlerSchedule') private handlerSchedule: number;
     @Mutation('setAudio') private setAudio: any;
     @Mutation('setSchedule') private setSchedule: any;
     @Action('setCurTime') private setCurTime: any;
@@ -31,7 +32,7 @@
     @Watch('songUrl', {deep: true})
     private onChnageSongUrl(val: boolean, oldVal: boolean) {
       if (val) {
-        // this.audioEl.pause();
+        this.audioEl.pause();
         this.$nextTick(() => {
           this.audioEl.play();
         });
@@ -45,6 +46,13 @@
       } else {
         this.pause();
       }
+    }
+    /* change schedule */
+    @Watch('handlerSchedule', {deep: true})
+    private onChnagehandlerSchedule(val: number, oldVal: number) {
+      const timeString = (val / 100 * this.curAudio.maxTime).toString();
+      this.audioEl.currentTime = parseInt(timeString, 10);
+      this.curAudio.currentTime = parseInt(timeString, 10);
     }
 
     get isPlaying(): boolean {
@@ -78,9 +86,6 @@
     private onTimeupdate(res: any) {
       // console.log('updateTime', res.target.currentTime);
       this.setCurTime(res.target.currentTime);
-      if (res.target.duration && res.target.currentTime) {
-        this.setSchedule((res.target.currentTime / res.target.duration) * 100);
-      }
     }
     private onLoadedmetadata(res: any) {
       // console.log('loadedTime', res.target.duration);

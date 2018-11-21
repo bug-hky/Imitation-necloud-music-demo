@@ -98,6 +98,7 @@
     @Mutation('setSongBar') private setSongBar: any;
     @Mutation('setSongListId') private setSongListId: any;
     @Mutation('setCurSong') private setCurSong: any;
+    @Mutation('setHandlerSchedule') private setHandlerSchedule: any;
     @Action('songListDetails') private songListDetails: any;
     @Action('songDetails') private songDetails: any;
     @Action('changePlayType') private changePlayType: any;
@@ -113,13 +114,16 @@
       return this.curAudio.playing;
     }
     get currentTime(): string {
-      return this.curAudio.currentTime;
+      return this.formatSeconds(this.curAudio.currentTime);
     }
     get maxTime(): string {
-      return this.curAudio.maxTime;
+      return this.formatSeconds(this.curAudio.maxTime);
     }
     get curSchedule(): number {
-      return Math.floor(this.schedule);
+      return Math.floor((this.curAudio.currentTime / this.curAudio.maxTime) * 100);
+    }
+    set curSchedule(value: number) {
+      this.setHandlerSchedule(value);
     }
     get curAudio() {
       return this.audio;
@@ -145,13 +149,25 @@
     get arts() {
       return this.songInfos.ar || [];
     }
-    get artsTitle() {
-      return this.arts.map((art: any) => {
-        return art.name;
-      }).join(' / ');
+    get artsTitle(): string {
+      return this.arts.map((art: any) => art.name).join(' / ');
     }
     get dishPic() {
       return this.songInfos.al ? this.songInfos.al.picUrl : null;
+    }
+
+    private formatSeconds(second: any) {
+      const secondType = typeof second;
+      if (secondType === 'string' || secondType === 'number') {
+        second = parseInt(second, 10);
+        const hours = Math.floor(second / 3600);
+        second = second - hours * 3600;
+        const minutes = Math.floor(second / 60);
+        second = second - minutes * 60;
+        return `${hours}:${('0' + minutes).slice(-2)}:${('0' + second).slice(-2)}`;
+      } else {
+        return '0:00:00';
+      }
     }
   }
 </script>
