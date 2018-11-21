@@ -7,7 +7,7 @@
     <div class="base-item-cont flex row justify-between align-center base-border" :class="{'img-cont': isSongList}">
       <div class="base-item-text-box flex column justify-around align-start">
         <p class="base-item-name base-font">{{data.name}}</p>
-        <p class="base-item-num default-font">{{isSongList ? `${data.trackCount} 首` : data.name}}</p>
+        <p class="base-item-num default-font">{{isSongList ? `${data.trackCount} 首` : arts}}</p>
       </div>
       <i class="iconfont icon-action default-font base-item-action"></i>
     </div>
@@ -44,6 +44,10 @@
 
     get isSongList() {
       return this.type === SONGLIST;
+    }
+
+    get arts(): string {
+      return this.data.ar.map((res: any): string => res.name).join('-');
     }
 
     private getDetails() {

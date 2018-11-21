@@ -51,9 +51,7 @@
     private classList: Menu[] = [
       { title: '最近播放', icon: 'icon-moon', number: 180, href: '/myMusic'},
       { title: '我的电台', icon: 'icon-sun', number: 180, href: '/myMusic'},
-      { title: '我的收藏', icon: 'icon-logout', number: 180, href: '/myMusic'},
-      { title: '本地音乐', icon: 'icon-my-music', number: 180, href: '/myMusic'},
-      { title: '下载管理', icon: 'icon-store-music', number: 180, href: '/myMusic', noBorder: true},
+      { title: '我的收藏', icon: 'icon-logout', number: 180, href: '/myMusic', noBorder: true},
     ];
     private myCreateLists: any = [];
     private myCollectLists: any = [];
