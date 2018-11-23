@@ -45,7 +45,7 @@
         <i :class="playTypeIcon" @click="changePlayType"></i>
       </van-col>
       <van-col :span="6">
-        <i class="default-font change-nav-icon iconfont icon-prev"></i>
+        <i class="default-font change-nav-icon iconfont icon-prev" @click="prevSong"></i>
       </van-col>
       <van-col :span="4">
         <i class="default-font play-nav-icon iconfont"
@@ -53,7 +53,7 @@
          @click="pauseOrPlay"></i>
       </van-col>
       <van-col :span="6">
-        <i class="default-font change-nav-icon iconfont icon-next"></i>
+        <i class="default-font change-nav-icon iconfont icon-next" @click="nextSong"></i>
       </van-col>
       <van-col :span="4">
         <i class="default-font action-nav-icon iconfont icon-list" @click="setSongBar(true)"></i>
@@ -102,6 +102,7 @@
     @Action('songListDetails') private songListDetails: any;
     @Action('songDetails') private songDetails: any;
     @Action('changePlayType') private changePlayType: any;
+    @Action('changeListSong') private changeListSong: any;
 
     private goSong() {
       this.$router.push('/song');
@@ -155,7 +156,12 @@
     get dishPic() {
       return this.songInfos.al ? this.songInfos.al.picUrl : null;
     }
-
+    private prevSong() {
+      this.changeListSong('prev');
+    }
+    private nextSong() {
+      this.changeListSong('next');
+    }
     private formatSeconds(second: any) {
       const secondType = typeof second;
       if (secondType === 'string' || secondType === 'number') {

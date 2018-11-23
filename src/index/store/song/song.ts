@@ -48,11 +48,12 @@ const actions = {
   },
   changeSong(context: { commit: Commit, dispatch: Dispatch, getters: any }, songId: any) {
     context.commit('setSongId', songId.toString());
-    console.log('paly this', context.getters.playList);
-    context.getters.playList.map((song: any) => {
+    // console.log('paly this', context.getters.playList.map((res: any) => res.id), songId);
+    context.getters.playList.map((song: any, index: number) => {
       if (song.id === songId) {
         console.log('paly this', song);
         context.commit('setCurSong', song);
+        context.commit('setCurIndex', index);
         context.dispatch('setSongUrl', songId).then((res: string) => {
           if (res === 'OK') {
             context.dispatch('setPlay', true);

@@ -1,6 +1,7 @@
 <template>
   <audio ref="audio" :src="songUrl" :loop="isSingleLoop"
     @pause="onPause" @play="onPlay" @timeupdate="onTimeupdate" @loadedmetadata="onLoadedmetadata"
+    @ended="onFinish"
   ></audio>
 </template>
 <script lang="ts">
@@ -27,6 +28,7 @@
     @Mutation('setSchedule') private setSchedule: any;
     @Action('setCurTime') private setCurTime: any;
     @Action('setMaxTime') private setMaxTime: any;
+    @Action('changeListSong') private changeListSong: any;
 
     /* change song */
     @Watch('songUrl', {deep: true})
@@ -76,6 +78,19 @@
     }
     private pause() {
       this.audioEl.pause();
+    }
+    private onFinish() {
+      const rePlay = () => {
+        this.audioEl.currentTime = 0;
+        this.curAudio.currentTime = 0;
+      };
+      const overActions = new Map([
+        [/^1$/, () => { rePlay(); }],
+        [/^[2-3]$/, () => { this.changeListSong('next'); }],
+      ]);
+      const target = [...overActions].filter(([key, value]) => (key.test(`${this.playType}`)));
+      const res = target.map(([key, value]) => value);
+      res[0]();
     }
     private onPlay() {
       this.audio.playing = true;
