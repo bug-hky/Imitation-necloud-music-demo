@@ -23,6 +23,11 @@
         </section>
       </van-row>
       <van-row class="song-list-ul">
+        <div class="song-list-title flex row justify-start align-center">
+          <i class="iconfont icon-pause vt-m l-10 r-10 base-font" @click="playCurSongList"></i>
+          <span class="base-font song-play-all vt-m r-5">播放全部</span>
+          <span class="default-font song-all-number">{{`(共${allNumber})首`}}</span>
+        </div>
         <baseItem v-for="(song, index) in realList" :key="song.id" :index="index + 1" :type="'song'" :data="song"/>
       </van-row>
     </van-row>
@@ -55,13 +60,16 @@
     @State('theme') private theme: string;
     @Getter('songList') private songList: any;
     @Getter('songListId') private songListId: number;
+    @Mutation('setSongList') private setSongList: any;
     @Action('songListDetails') private songListDetails: any;
+    @Action('setPlayList') private setPlayList: any;
 
     @Watch('songListId', {immediate: true, deep: true})
     private onSongListIdChanged(val: number, oldVal: number) {
       this.songListDetails(val).then((res: any) => {
         if (res.code === 200) {
           this.songLists = res.playlist;
+          this.setSongList(this.songLists.tracks);
           console.log('this.songLists', this.songLists);
         }
       });
@@ -70,6 +78,9 @@
     get realList() {
       return this.songLists.tracks;
     }
+    get allNumber() {
+      return this.realList ? this.realList.length : 0;
+    }
     get userBg() {
       return this.songLists.creator ? this.songLists.creator.backgroundUrl : this.defaultImg;
     }
@@ -77,8 +88,8 @@
       return this.songLists.creator ? this.songLists.creator.nickname : '';
     }
 
-    private getSongListDetails() {
-      console.log('getSongListDetails');
+    private playCurSongList() {
+      this.setPlayList({playList: this.realList, isDefault: false});
     }
 
     private mounted() {
@@ -145,6 +156,10 @@
     }
     .song-list-ul {
       height: auto;
+      .song-list-title {
+        height: 50px;
+        width: 100%;
+      }
     }
   }
 }

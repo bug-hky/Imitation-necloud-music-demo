@@ -52,7 +52,8 @@
 
     private getDetails() {
       if (this.type === SONG) {
-        this.setSongId(this.data.id.toString());
+        this.setSongId(this.data.id);
+        console.log(this.setSongId(this.data.id));
         this.$router.push('/song');
       } else {
         this.setSongListId(this.data.id);

@@ -55,12 +55,9 @@
     private getDefautPlayList() {
       if (this.user.profile.userId) {
         this.record(1).then((resp: any) => {
-          console.log('records', resp);
           if (resp.code === 200) {
-            const setList: any[] = resp.weekData.map((data: any) => {
-              return data.song;
-            });
-            this.setPlayList(setList);
+            const setList: any[] = resp.weekData.map((data: any) =>  data.song);
+            this.setPlayList({playList: setList, isDefault: true});
           } else {
             Toast('获取播放列表失败');
           }
@@ -68,7 +65,6 @@
       }
     }
     private created() {
-      console.log('home');
       this.getDefautPlayList();
     }
   }

@@ -28,14 +28,25 @@ const mutations = {
 };
 
 const actions = {
-  setPlayList(context: { commit: Commit, dispatch: Dispatch, state: State }, playList: any[]) {
-    context.commit('setPlayList', playList);
-    if (playList.length > 0 && state.songId === null) {
-      context.commit('setCurSong', playList[0]);
-      context.dispatch('setSongId', playList[0].id.toString());
+  setPlayList(
+  context: { commit: Commit, dispatch: Dispatch, state: State },
+  params: { playList: any[], isDefault: boolean }) {
+    const changePlayList = (plList: any[]) => {
+      context.commit('setPlayList', plList);
+      if (plList.length > 0) {
+        context.commit('setCurSong', plList[0]);
+        context.dispatch('setSongId', plList[0].id.toString());
+      }
+    };
+    const actions = new Map([
+      [true, state.songId === null],
+      [false, true],
+    ]);
+    if (actions.get(params.isDefault)) {
+      changePlayList(params.playList);
     }
   },
-  setSongId(context: { commit: Commit, dispatch: Dispatch }, songId: any) {
+  setSongId(context: { commit: Commit, dispatch: Dispatch, state: State, rootState: any}, songId: any) {
     context.commit('setSongId', songId.toString());
     context.dispatch('songDetails', songId).then((res: any) => {
       if (res.code === 200) {
@@ -45,6 +56,12 @@ const actions = {
         Toast('获取歌曲信息失败');
       }
     });
+    // if (!context.rootState.playList.playList.map((res: any) => res.id).includes(songId)) {
+    //   context.dispatch('setPlayList', {
+    //     playList: context.rootState.songList.songList,
+    //     isDefault: false,
+    //   });
+    // }
   },
   changeSong(context: { commit: Commit, dispatch: Dispatch, getters: any }, songId: any) {
     context.commit('setSongId', songId.toString());
