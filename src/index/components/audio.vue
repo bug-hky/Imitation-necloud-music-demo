@@ -24,6 +24,7 @@
     @Prop({ default: null }) private songUrl: string;
     @Getter('audio') private audio: any;
     @Getter('handlerSchedule') private handlerSchedule: number;
+    @Getter('isNoLoud') private isNoLoud: boolean;
     @Mutation('setAudio') private setAudio: any;
     @Mutation('setSchedule') private setSchedule: any;
     @Action('setCurTime') private setCurTime: any;
@@ -56,9 +57,22 @@
       this.audioEl.currentTime = parseInt(timeString, 10);
       this.curAudio.currentTime = parseInt(timeString, 10);
     }
+    /* change loud */
+    @Watch('curLoud', {deep: true})
+    private onChangeCurLoud(val: number, oldVal: number) {
+      this.audioEl.volume = val / 100;
+    }
+    /* no loud */
+    @Watch('isNoLoud', {deep: true})
+    private onChangeNoLoud(val: boolean, oldVal: boolean) {
+      this.audioEl.muted = val;
+    }
 
     get isPlaying(): boolean {
       return this.curAudio.playing;
+    }
+    get curLoud(): number {
+      return this.curAudio.loud;
     }
     get curAudio() {
       return this.audio;

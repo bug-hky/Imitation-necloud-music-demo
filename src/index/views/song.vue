@@ -13,9 +13,15 @@
   </div>
   <div class="song-page flex column justify-start align-center" v-else>
     <topBar :isSong="true" :title="songInfos.name" :second-title="artsTitle" :double="true"/>
-    <section class="dish flex row justify-center align-center">
+    <section class="dish flex row justify-center align-center" @click="toogleDish">
       <div class="dish-body flex column justify-center align-center rotate-ani" :class="{'pause-ani': !isPlaying}">
         <img :src="dishPic" :alt="dishPic" class="al-img">
+      </div>
+    </section>
+    <section class="lyrics-box flex column justify-start align-start" v-show="!showDish" @click="toogleDish">
+      <div class="loud-control-box flex row justify-center align-center vt-p l-10 r-10">
+        <i class="default-font icon-loud iconfont vt-m r-10" @click.stop="toogleNoLoud"></i>
+        <van-slider class="loud-line" v-model="curLoud" />
       </div>
     </section>
     <van-row class="action-nav flex row align-center">
@@ -86,6 +92,7 @@
   })
   export default class Song extends Vue {
     private active: number = 0;
+    private showDish: boolean = true;
     @Prop({ default: false}) private isBar: boolean;
 
     @Getter('songInfos') private songInfos: any;
@@ -103,6 +110,8 @@
     @Action('songDetails') private songDetails: any;
     @Action('changePlayType') private changePlayType: any;
     @Action('changeListSong') private changeListSong: any;
+    @Action('setLoud') private setLoud: any;
+    @Action('toogleNoLoud') private toogleNoLoud: any;
 
     private goSong() {
       this.$router.push('/song');
@@ -125,6 +134,12 @@
     }
     set curSchedule(value: number) {
       this.setHandlerSchedule(value);
+    }
+    get curLoud(): number {
+      return this.curAudio.loud;
+    }
+    set curLoud(value: number) {
+      this.setLoud(value);
     }
     get curAudio() {
       return this.audio;
@@ -161,6 +176,9 @@
     }
     private nextSong() {
       this.changeListSong('next');
+    }
+    private toogleDish() {
+      this.showDish = !this.showDish;
     }
     private formatSeconds(second: any) {
       const secondType = typeof second;
@@ -232,6 +250,27 @@
         border-radius: 50%;
       }
     }
+  }
+  .lyrics-box {
+      height: calc(100% - 120px);
+      width: 100%;
+      background: rgba($color: #000, $alpha: 0.9);
+      position: absolute;
+      top: 45px; left: 0;
+      .loud-control-box {
+        height: 20px;
+        width: 100%;
+        .loud-line{
+          width: calc(100% - 50px);
+          .van-slider__bar{
+            background: green;
+            .van-slider__button {
+              height: 12px;
+              width: 12px;
+            }
+          }
+        }
+      }
   }
   .action-footer {
     width: 100%;
