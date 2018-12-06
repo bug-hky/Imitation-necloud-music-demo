@@ -9,7 +9,7 @@ import songList from './songList/songList';
 import playList from './playList/playList';
 import audio from './audio/audio';
 import { State, User } from './interface';
-import { playlistDeatils, getSongUrl, getSongDetails } from '../api/songAbout';
+import { playlistDeatils, getSongUrl, getSongDetails, getLyric } from '../api/songAbout';
 import { logout, getRecord } from '../api/home';
 
 Vue.use(Vuex);
@@ -109,6 +109,12 @@ const actions = {
   },
   async record(context: any, type: number) {
     const res: any = await getRecord(context.state.user.profile.userId, type)
+      .then((response: any) => response)
+      .catch((e: string) => console.log(e));
+    return res;
+  },
+  async lyric(context: any, id: string) {
+    const res: any = await getLyric(id)
       .then((response: any) => response)
       .catch((e: string) => console.log(e));
     return res;

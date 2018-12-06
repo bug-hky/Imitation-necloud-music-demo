@@ -7,12 +7,14 @@ const state: State = {
   songId: null,
   songInfos: {},
   songUrl: null,
+  lyrics: {},
 };
 
 const getters = {
   songId: (state: State) => state.songId,
   songInfos: (state: State) => state.songInfos,
   songUrl: (state: State) => state.songUrl,
+  lyrics: (state: State) => state.lyrics,
 };
 
 const mutations = {
@@ -24,6 +26,9 @@ const mutations = {
   },
   setSongUrl(state: State, data: string) {
     state.songUrl = data;
+  },
+  setLyrics(state: State, data: any) {
+    state.lyrics = data;
   },
 };
 
@@ -52,6 +57,7 @@ const actions = {
       if (res.code === 200) {
         context.commit('setCurSong', res.songs[0]);
         context.dispatch('setSongUrl', songId);
+        context.dispatch('getSongLyric', songId);
       } else {
         Toast('获取歌曲信息失败');
       }
@@ -71,8 +77,10 @@ const actions = {
         console.log('paly this', song);
         context.commit('setCurSong', song);
         context.commit('setCurIndex', index);
+        context.dispatch('getSongLyric', songId);
         context.dispatch('setSongUrl', songId).then((res: string) => {
           if (res === 'OK') {
+            context.dispatch('setPlay', false);
             context.dispatch('setPlay', true);
           }
         });
@@ -87,6 +95,18 @@ const actions = {
           resolve('OK');
         } else {
           Toast('获取歌曲失败');
+        }
+      });
+    });
+  },
+  getSongLyric(context: { commit: Commit, dispatch: Dispatch }, songId: any) {
+    return new Promise((resolve: any, reject: any) => {
+      context.dispatch('lyric', songId).then((lyric: any) => {
+        if (lyric.code === 200) {
+          context.commit('setLyrics', lyric.lrc ? lyric.lrc.lyric : '此歌曲暂无歌词');
+          resolve('OK');
+        } else {
+          Toast('获取歌词失败');
         }
       });
     });

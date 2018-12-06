@@ -20,8 +20,12 @@
     </section>
     <section class="lyrics-box flex column justify-start align-start" v-show="!showDish" @click="toogleDish">
       <div class="loud-control-box flex row justify-center align-center vt-p l-10 r-10">
-        <i class="default-font icon-loud iconfont vt-m r-10" @click.stop="toogleNoLoud"></i>
+        <i class="default-font iconfont vt-m r-10" :class="{'icon-loud': !isNoLoud, 'icon-dis-loud': isNoLoud }" @click.stop="toogleNoLoud"></i>
         <van-slider class="loud-line" v-model="curLoud" />
+      </div>
+      <div class="lyrics-cont-box">
+        <!-- <p v-for="item in curLyrics.">{{lyrics}}</p> -->
+        <lyrics></lyrics>
       </div>
     </section>
     <van-row class="action-nav flex row align-center">
@@ -79,6 +83,7 @@
   import { Toast } from 'vant';
   import baseItem from '../components/baseItem.vue';
   import topBar from '../components/topBar.vue';
+  import lyrics from '../components/lyrics.vue';
 
   const someModule = namespace('/src/index/store/song/song');
   const SINGLE = 1;
@@ -88,6 +93,7 @@
     components: {
       baseItem,
       topBar,
+      lyrics,
     },
   })
   export default class Song extends Vue {
@@ -101,6 +107,7 @@
     @Getter('playType') private playType: number;
     @Getter('audio') private audio: any;
     @Getter('schedule') private schedule: any;
+    @Getter('isNoLoud') private isNoLoud: boolean;
     @Mutation('setAudio') private setAudio: any;
     @Mutation('setSongBar') private setSongBar: any;
     @Mutation('setSongListId') private setSongListId: any;

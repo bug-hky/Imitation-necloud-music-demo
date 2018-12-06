@@ -20,3 +20,10 @@ export const getSongDetails = (id: string) => {
     method: 'GET',
   });
 };
+
+export const getLyric = (id: string) => {
+  return request({
+    url: '/lyric?id=' + id,
+    method: 'GET',
+  });
+};
