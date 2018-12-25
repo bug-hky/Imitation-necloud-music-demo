@@ -2,7 +2,9 @@
   <div class="lyrics-box">
     <div class="text-box" :style="curPos">
       <template v-if="hasLyrics">
-        <p class="text-item default-font" :class="{'cur-line-style': index === curLine}"
+        <p class="text-item default-font"
+          :class="{'cur-line-style': index === curLine}"
+          :ref="index === curLine ? 'lyricsCurLine' : ''"
         v-for="(ly, index) in lyricsTextList" :key="index">{{ly}}</p>
       </template>
       <template v-else>
@@ -19,13 +21,13 @@
   */
   import { Component, Vue, Prop, Emit, Watch } from 'vue-property-decorator';
   import { Action, Mutation, State, Getter, namespace } from 'vuex-class';
-  import Lyrics from '../../common/ts/lyrics.js';
+  import Lyrics from '../../common/ts/lyrics';
   const SINGLE = 1;
   @Component({
     components: {},
   })
   export default class SongList extends Vue {
-    private curLyrics: any;
+    private curLyrics: any = null;
     private lyricsTextList: any[] = [];
     private hasLyrics: boolean = false;
     private curLine: number = 0;
@@ -36,8 +38,8 @@
     @Watch('lyrics', {deep: true, immediate: true})
     private handlerChangeLyrics(val: any, oldVal: any) {
       if (val && val !== '此歌曲暂无歌词') {
-        this.curLine = -1;
-        const lyrics: any = new Lyrics(val, () => {
+        this.curLine = 0;
+        this.curLyrics = new Lyrics(val, () => {
           console.log('change line', this.curLyrics.lines.length);
           this.curLine++;
           if (this.curLine === this.curLyrics.lines.length) {
@@ -48,21 +50,22 @@
             }
           }
         });
-        this.curLyrics = lyrics;
         this.hasLyrics = true;
         this.lyricsTextList = this.curLyrics.lines.map((res: any): string => res.txt);
-        console.log(typeof val, val, lyrics);
+        console.log(typeof val, val);
       } else {
-        this.curLyrics = val;
+        this.curLyrics = null;
         this.hasLyrics = false;
       }
     }
     @Watch('isPlaying', {immediate: true})
     private handlerChangeIsPlaying(val: any, oldVal: any) {
-      if (val) {
-        this.curLyrics.play();
-      } else {
-        this.curLyrics.stop();
+      if (this.curLyrics) {
+        if (val) {
+          this.curLyrics.play();
+        } else {
+          this.curLyrics.stop();
+        }
       }
     }
 
@@ -103,9 +106,12 @@
     width: 100%;
     position: absolute;
     top: 50%; left: 0;
+    transition: 0.8s ease-in-out;
     .text-item {
-      height: 30px;
+      min-height: 30px;
       width: 100%;
+      white-space: normal;
+      line-height: 30px;
       &.cur-line-style {
         font-size: 18px;
         color: #fff;
